@@ -1,0 +1,114 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Visit Data Section */
+#visitData {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#visitData p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+h2 {
+    font-size: 1.6em;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+/* Visit List Styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fafafa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+li:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+
+li p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+/* Table for Visit Details */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    background-color: #f8f8f8;
+    color: #444;
+}
+
+td {
+    background-color: #fff;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    margin-top: 40px;
+    border-radius: 0 0 8px 8px;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+    
+    #visitData {
+        padding: 15px;
+    }
+
+    li {
+        padding: 12px;
+    }
+}

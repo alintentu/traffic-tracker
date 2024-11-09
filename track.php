@@ -3,7 +3,6 @@ ob_clean(); // Clears any previous output
 
 require_once 'Database.php';
 
-// Set header for JSON response
 header('Content-Type: application/json');
 
 header("Access-Control-Allow-Origin: *");
