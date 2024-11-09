@@ -2,6 +2,7 @@
 
 class Database {
     private $pdo;
+    private $redis;
     private $host = 'localhost';
     private $dbname = 'traffic_tracker';
     private $username = 'root';
@@ -9,26 +10,43 @@ class Database {
 
     public function __construct() {
         try {
-            // Establish a PDO connection
+            // Connect to MySQL database
             $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Connect to Redis
+            $this->redis = new Redis();
+            $this->redis->connect('127.0.0.1', 6379); // Default Redis server
         } catch (PDOException $e) {
-            // Handle any database connection errors
-            die("Connection failed: " . $e->getMessage());
+            die("Database connection failed: " . $e->getMessage());
+        } catch (RedisException $e) {
+            die("Redis connection failed: " . $e->getMessage());
         }
     }
 
-    // Public method to get PDO instance
+    // Get PDO instance
     public function getPdo() {
         return $this->pdo;
     }
 
-    // New method to fetch visit data from the database
+    // Get visit data with Redis caching
     public function getVisitData() {
-        // Query to get all visit records
-        $stmt = $this->pdo->query("SELECT * FROM visits ORDER BY timestamp DESC");
+        // Try to get the cached visit data from Redis
+        $cachedData = $this->redis->get('visit_data');
+        
+        if ($cachedData) {
+            // If data is in cache, return it
+            return json_decode($cachedData, true);
+        }
 
-        // Fetch all rows from the result set
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // If no cache, fetch from the database
+        $stmt = $this->pdo->query("SELECT * FROM visits ORDER BY timestamp DESC");
+        $visitData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Cache the visit data in Redis for 5 minutes
+        $this->redis->setex('visit_data', 300, json_encode($visitData));
+
+        // Return the visit data
+        return $visitData;
     }
 }
